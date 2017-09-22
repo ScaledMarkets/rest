@@ -515,6 +515,13 @@ func ParseResponseBodyToMap(body io.ReadCloser) (map[string]interface{}, error) 
 	var err error
 	value, err = ioutil.ReadAll(body)
 	if err != nil { return nil, err }
+	
+	s := string(value)
+	fmt.Println("body:")
+	fmt.Println(s)
+	fmt.Println("end of body")
+	
+	
 	var obj map[string]interface{}
 	err = json.Unmarshal(value, &obj)
 	if err != nil { return nil, err }

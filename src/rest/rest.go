@@ -678,12 +678,12 @@ func PrintMaps(ms []map[string]interface{}) {
 }
 
 /*******************************************************************************
- * If the response is not 200, then throw an exception.
+ * If the response is not a 200 range response, then throw an exception.
  */
 func (restContext *RestContext) Verify200Response(resp *http.Response) bool {
-	var is200 bool = true
-	if resp.StatusCode != 200 {
-		is200 = false
+	var isOk bool = true
+	if resp.StatusCode >= 300 {
+		isOk = false
 		fmt.Sprintf("Response code %d", resp.StatusCode)
 		var responseMap map[string]interface{}
 		var err error
@@ -691,7 +691,7 @@ func (restContext *RestContext) Verify200Response(resp *http.Response) bool {
 		if err == nil { PrintMap(responseMap) }
 		//if restContext.stopOnFirstError { os.Exit(1) }
 	}
-	return is200
+	return isOk
 }
 
 /*******************************************************************************
